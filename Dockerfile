@@ -13,18 +13,37 @@ RUN sudo apt-get install -y git
 RUN git clone https://github.com/BVLC/caffe.git /opt/caffe
 WORKDIR /opt/caffe
 
+
+# Use gcc 4.6 
+# Fixes internal compiler error: Segmentation fault while compiling tests
+RUN sudo apt-get install -y gcc-4.6 \ 
+    g++-4.6 \ 
+    gcc-4.6-multilib \  
+    g++-4.6-multilib
+
+RUN update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-4.6 30 && \
+  update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-4.6 30 && \ 
+  update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 30 && \
+  update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.6 30
+
 # Build Caffe core
 RUN cp Makefile.config.example Makefile.config && \
+    echo "CXX := /usr/bin/g++-4.6" >> Makefile.config && \
     sed -i 's/CXX :=/CXX ?=/' Makefile 
 RUN make all
 RUN make test
 
 # Install python dependencies
+RUN sudo apt-get install -y gfortran
 RUN sudo apt-get install -y python-pip
-RUN pip install -r python/requirements.txt
+RUN sudo easy_install numpy
+RUN sudo easy_install pillow
+RUN for req in $(cat python/requirements.txt); do pip install $req; done
 
 # Build Caffe python bindings and make + run tests
 RUN make pycaffe
 
 # Add binaries to path
-RUN bash -c 'echo "export PATH=/opt/caffe/.build_release/tools:\$PATH" >> ~/.bashrc'
+RUN echo "export PATH=/opt/caffe/.build_release/tools:\$PATH" >> ~/.bashrc
+
+CMD ["bash"]
