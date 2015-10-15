@@ -46,4 +46,7 @@ RUN make pycaffe
 # Add binaries to path
 RUN echo "export PATH=/opt/caffe/.build_release/tools:\$PATH" >> ~/.bashrc
 
+# Extras
+RUN sudo apt-get install -y vim
+
 CMD ["bash"]
