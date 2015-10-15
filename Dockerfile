@@ -14,9 +14,10 @@ RUN git clone https://github.com/BVLC/caffe.git /opt/caffe
 WORKDIR /opt/caffe
 
 # Build Caffe core
-RUN  cp Makefile.config.example Makefile.config && \
-  sed -i 's/CXX :=/CXX ?=/' Makefile && \
-  make all
+RUN cp Makefile.config.example Makefile.config && \
+    sed -i 's/CXX :=/CXX ?=/' Makefile 
+RUN make all
+RUN make test
 
 # Install python dependencies
 RUN pip install -r python/requirements.txt
