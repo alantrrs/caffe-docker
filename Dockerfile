@@ -20,6 +20,7 @@ RUN make all
 RUN make test
 
 # Install python dependencies
+RUN sudo apt-get install -y python-pip
 RUN pip install -r python/requirements.txt
 
 # Build Caffe python bindings and make + run tests
