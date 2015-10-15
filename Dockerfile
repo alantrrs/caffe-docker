@@ -3,11 +3,11 @@ MAINTAINER Alan Torres <http://github.com/alantrrs>
 
 # Install dependencies
 RUN sudo apt-get update
-RUN sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
-RUN sudo apt-get install --no-install-recommends libboost-all-dev
-RUN sudo apt-get install libatlas-base-dev 
-RUN sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
-RUN sudo apt-get install git
+RUN sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler
+RUN sudo apt-get install -y  --no-install-recommends libboost-all-dev
+RUN sudo apt-get install -y libatlas-base-dev 
+RUN sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
+RUN sudo apt-get install -y git
 
 # Clone the Caffe repo 
 RUN git clone https://github.com/BVLC/caffe.git /opt/caffe
